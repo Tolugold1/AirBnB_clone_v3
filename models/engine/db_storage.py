@@ -84,7 +84,7 @@ class DBStorage:
         """Count number of cls object"""
         if cls in classes:
             return self.__session.query(func.count(cls.id)).scalar()
-        return self.__session.count()
+        return len(self.all())
 
 
     def close(self):
