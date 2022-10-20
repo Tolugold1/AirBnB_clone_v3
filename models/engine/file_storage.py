@@ -70,11 +70,17 @@ class FileStorage:
         """retrieve the specified class object"""
         new_dict = {}
         if cls in classes:
-            for key, val in self.__objects.items():
-                if cls == val.__class__ or cls == val.__class__.__name__:
-                    k = cls + "." + id
-                    new_dict[k] = val
+            for val in self.all(cls):
+                k = cls + "." + id
+                new_dict[k] = val
             return new_dict
+
+    def count(self, cls=None):
+        """Count number of cls object"""
+        if cls in classes:
+            return len(self.all(cls))
+        return len(self.all())
+
 
     def count(self, cls=None):
         """Count number of cls object"""
