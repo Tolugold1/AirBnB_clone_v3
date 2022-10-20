@@ -82,13 +82,7 @@ class DBStorage:
 
     def count(self, cls=None):
         """Count number of cls object"""
-        if cls is not None:
-            for val in self.all(cls):
-                count = 0
-                if cls == val.__class__.__name__ or cls == val.__class__:
-                    count += 1
-            return count
-        return self.all().__len__()
+        return self.all(cls).__len__()
 
     def close(self):
         """call remove() method on the private session attribute"""
