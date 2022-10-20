@@ -70,20 +70,14 @@ class FileStorage:
         """retrieve the specified class object"""
         new_dict = {}
         if cls in classes:
-            obj = self.__session.query(cls).where(cls.id == id)
+            obj = self.__session.query(cls).filter(cls.id == id)
             key = obj.__class__.__name__ + '.' + obj.id
             new_dict[key] = obj
         return new_dict
 
     def count(self, cls=None):
         """Count number of cls object"""
-        if cls is not None:
-            for val in self.all(cls):
-                count = 0
-                if cls == val.__class__.__name__ or cls == val.__class__:
-                    count += 1
-            return count
-        return self.all().__len__()
+        return self.all(cls).__len__()
 
     def close(self):
         """call reload() method for deserializing the JSON file to objects"""
