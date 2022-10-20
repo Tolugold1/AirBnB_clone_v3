@@ -75,7 +75,7 @@ class DBStorage:
         """retrieve the specified class object"""
         new_dict = {}
         if cls in classes:
-            obj = self.__session.query(cls).where(cls.id == id)
+            obj = self.__session.query(cls).filter(cls.id == id)
             key = obj.__class__.__name__ + '.' + obj.id
             new_dict[key] = obj
         return new_dict
