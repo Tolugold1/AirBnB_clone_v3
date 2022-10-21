@@ -73,7 +73,7 @@ class DBStorage:
 
     def get(self, cls, id):
         """retrieve the specified class object"""
-        return self.all(cls).get(cls + '.' + id)
+        return self.all(cls).get(str(cls.__name__) + '.' + id)
 
     def count(self, cls=None):
         """Count number of cls object"""
