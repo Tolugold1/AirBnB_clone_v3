@@ -10,7 +10,7 @@ def status():
     """return a status code in JSON format"""
     return jsonify({"status": "OK"})
 
-@paa_views.route("/stats")
+@app_views.route("/stats")
 def stats():
     """
     Return the count of each 
