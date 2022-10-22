@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 """Index file"""
 
-from flask import Flask
+from flask import Flask, jsonify
 from api.v1.views import app_views
 
-@app_views.route('/api/v1/status')
+@app_views.route('/status')
 def status():
     """return a status code in JSON format"""
-    return {"status": "OK"}
+    return jsonify({"status": "OK"})
