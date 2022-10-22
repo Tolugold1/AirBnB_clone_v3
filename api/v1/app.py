@@ -16,7 +16,8 @@ def remove_session(response_or_exc):
     storage.close()
     
 @app.errorhandler(404)
-def not_found(self):
+def not_found(error):
+    """404 page"""
     return jsonify({"error": "Not found"})
 
 if __name__ == '__main__':
