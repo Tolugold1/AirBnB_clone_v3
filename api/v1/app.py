@@ -14,6 +14,7 @@ app.register_blueprint(app_views)
 def remove_session(response_or_exc):
     """Remove the surrent session"""
     storage.close()
+    
 @app.errorhandler(404)
 def not_found(404):
     return make_response(jsonify({"error": "Not found"}), 404)
