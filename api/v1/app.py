@@ -2,7 +2,7 @@
 """Flask app.py"""
 
 
-from flask import Flask
+from flask import Flask, jsonify
 from models import storage
 from api.v1.views import app_views
 from os import getenv
@@ -18,7 +18,7 @@ def remove_session(response_or_exc):
 @app.errorhandler(404)
 def not_found(error):
     """404 page"""
-    return make_response(jsonify({"error": "Not found"}), 404)
+    return jsonify({"error": "Not found"})
 
 if __name__ == '__main__':
     HBNB_API_HOST = getenv('HBNB_API_HOST')
