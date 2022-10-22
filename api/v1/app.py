@@ -11,8 +11,8 @@ app = Flask(__name__)
 app.register_blueprint(app_views)
 
 @app.errorhandler(404)
-def not_found(error):
-    return (jsonify({"error": "Not found"}), 404)
+def not_found(self):
+    return jsonify({"error": "Not found"})
 
 @app.teardown_appcontext
 def remove_session(response_or_exc):
