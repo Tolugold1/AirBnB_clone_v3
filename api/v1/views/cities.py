@@ -26,7 +26,7 @@ def city_obj(city_id):
     if not city:
         abort(404)
     else:
-        return city.to_dict()
+        return jsonify(city.to_dict())
     
 @app_views.route('/cities/<city_id>', methods=['DELETE'],
                  strict_slashes=False)
@@ -55,7 +55,7 @@ def post_new_city(state_id):
     newCity = City(**city_body_req)
     storage.new(newCity)
     storage.save()
-    return newCity.to_dict(), 201
+    return jsonify(newCity.to_dict()), 201
 
 @app_views.route('/cities/<city_id>', methods=['PUT'],
                  strict_slashes=False)
@@ -70,4 +70,4 @@ def update_city(city_id):
     for k, v in updates.items():
         setattr(city, k, v)
     storage.save()
-    return city.to_dict()
+    return jsonify(city.to_dict())
