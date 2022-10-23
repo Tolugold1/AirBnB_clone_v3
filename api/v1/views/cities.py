@@ -10,7 +10,7 @@ from models.state import State
 def city(state_id):
     """Retrieves the list of all City objects of a State"""
     allState_city = {}
-    if not storage.all(State).get(state_id):
+    if not storage.all().get('State', state_id):
         abort(404)
     for city in storage.all(City).items():
         if state_id == city.to_dict()['state_id']:
@@ -20,7 +20,7 @@ def city(state_id):
 @app_views.route('GET /api/v1/cities/<city_id>', strict_slashes=False)
 def city_obj(city_id):
     """Retrieves a City object"""
-    city = storage.all(City).get(city_id)
+    city = storage.all().get('City', city_id)
     if not city:
         abort(404)
     else:
