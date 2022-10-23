@@ -9,7 +9,7 @@ from models.state import State
 @app_views.route('/api/v1/states/<state_id>/cities', strict_slashes=False)
 def city(state_id):
     """Retrieves the list of all City objects of a State"""
-    allState_city = {}
+    allState_city = []
     if not storage.get('State', state_id):
         abort(404)
     for city in storage.all(City).items():
