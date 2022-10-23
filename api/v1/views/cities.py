@@ -10,7 +10,7 @@ from models.state import State
 def city(state_id):
     """Retrieves the list of all City objects of a State"""
     allState_city = []
-    if not storage..get("State", state_id):
+    if not storage.get("State", state_id):
         abort(404)
     for city in storage.all(City).values():
         if state_id == city.to_dict()['state_id']:
