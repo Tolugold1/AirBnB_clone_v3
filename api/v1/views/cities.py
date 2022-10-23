@@ -10,7 +10,7 @@ from models.state import State
 def city(state_id):
     """Retrieves the list of all City objects of a State"""
     allState_city = []
-    if not storage.all(State).get(state_id):
+    if not storage..get("State", state_id):
         abort(404)
     for city in storage.all(City).values():
         if state_id == city.to_dict()['state_id']:
@@ -20,7 +20,7 @@ def city(state_id):
 @app_views.route('/cities/<city_id>', strict_slashes=False)
 def city_obj(city_id):
     """Retrieves a City object"""
-    city = storage.all(City).get(city_id)
+    city = storage.get("City", city_id)
     if not city:
         abort(404)
     else:
@@ -30,7 +30,7 @@ def city_obj(city_id):
 def delete_city(city_id):
     """DElete a city object"""
     empty_dict = {}
-    city = storage.all(City).get(city_id)
+    city = storage.get("City", city_id)
     if not city:
         abort(404)
     storage.delete(city)
@@ -41,7 +41,7 @@ def delete_city(city_id):
 def post_new_city(state_id):
     """create new city under the specified state_id"""
     city_body_req = request.get_json()
-    if not storage.get(State).get(state_id):
+    if not storage.get("State", state_id):
         abort(404)
     if not city_body_req:
         abort(400, {"Not a JSON"})
@@ -56,7 +56,7 @@ def post_new_city(state_id):
 @app_views.route('/cities/<city_id>', methods=['PUT'], strict_slashes=False)
 def update_city(city_id):
     """update existing city in the db or storage"""
-    city = storage.all(City).get(city_id)
+    city = storage.get("City", city_id)
     if not city:
         abort(404)
     updates = request.get_json()
