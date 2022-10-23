@@ -6,18 +6,21 @@ from models import storage
 from models.user import User
 
 @app_views.route('/users', strict_slashes=False)
-@app_views.route('/users/<user_id>', strict_slashes=False)
-def all_users(user_id):
-    """Retrieve all user and selected user"""
+def all_user():
+    """return all users"
     all_users = []
+    for user in storage.all(User).values():
+        all_users.append(user.to_dict())
+    return jsonify(all_users)
+    
+@app_views.route('/users/<user_id>', strict_slashes=False)
+def users(user_id):
+    """Retrieve all user and selected user"""
     if user_id is not None:
         user = storage.get(User, user_id)
         if not user:
             abort(404)
         return jsonify(user.to_dict())
-    for user in storage.all(User).values():
-        all_users.append(user.to_dict())
-    return jsonify(all_users)
 
 @app_views.route('/api/v1/users/<user_id>', methods=['DELETE'], strict_slashes=False)
 def delete_user(user_id):
