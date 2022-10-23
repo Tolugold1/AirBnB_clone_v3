@@ -65,4 +65,4 @@ def update_city(city_id):
     for k, v in updates.items():
         setattr(city, k, v)
     storage.save()
-    return updates.to_dict()
+    return city.to_dict()
