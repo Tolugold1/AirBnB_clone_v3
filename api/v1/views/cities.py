@@ -46,7 +46,7 @@ def post_new_city(state_id):
     if not city_body_req:
         abort(400, {"Not a JSON"})
     if 'name' not in city_body_req:
-        abort(400, {"Name not found"})
+        abort(400, {"Missing name"})
     city_body_req['state_id'] = state_id
     newCity = City(**city_body_req)
     storage.new(newCity)
