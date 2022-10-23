@@ -6,23 +6,24 @@ from models import storage
 from models.user import User
 
 @app_views.route('/users', strict_slashes=False)
-def all_user():
-    """return all users"
+def all_users():
+    """return all user"""
     all_users = []
     for user in storage.all(User).values():
         all_users.append(user.to_dict())
     return jsonify(all_users)
-    
+
 @app_views.route('/users/<user_id>', strict_slashes=False)
 def users(user_id):
     """Retrieve all user and selected user"""
+
     if user_id is not None:
         user = storage.get(User, user_id)
         if not user:
             abort(404)
         return jsonify(user.to_dict())
 
-@app_views.route('/api/v1/users/<user_id>', methods=['DELETE'], strict_slashes=False)
+@app_views.route('/users/<user_id>', methods=['DELETE'], strict_slashes=False)
 def delete_user(user_id):
     """delete a user"""
     user = storage.get(User, user_id)
@@ -32,7 +33,7 @@ def delete_user(user_id):
     storage.save()
     return {}
 
-@app_views.route("/api/v1/users", methods=["POST"], strict_slashes=False)
+@app_views.route("/users", methods=["POST"], strict_slashes=False)
 def post_user():
     """create a new user"""
     n_user = request.get_json()
@@ -47,7 +48,7 @@ def post_user():
     storage.save()
     return new_User.to_dict(), 201
 
-@app_views.route("/api/v1/users/<user_id>", methods=["PUT"], strict_slashes=False)
+@app_views.route("/users/<user_id>", methods=["PUT"], strict_slashes=False)
 def update_user(user_id):
     """Update a user"""
     user = storage.get(User, user_id)
@@ -60,3 +61,4 @@ def update_user(user_id):
         setattr(user, k, v)
     storage.save()
     return jsonify(user.to_dict())
+    
