@@ -14,7 +14,7 @@ def city(state_id):
         abort(404)
     for city in storage.all(City).values():
         if state_id == city.to_dict()['state_id']:
-            allState_city.append(city.to_dict().values())
+            allState_city.append(city.to_dict())
     return jsonify(allState_city)
 
 @app_views.route('GET /api/v1/cities/<city_id>', strict_slashes=False)
