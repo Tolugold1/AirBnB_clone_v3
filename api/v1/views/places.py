@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """State view"""
-from flask import Flask, jsonify, abort, request
+from flask import Flask, jsonify, abort, request, make_response
 from api.v1.views import app_views
 from models import storage
 from models.place import Place
@@ -17,7 +17,7 @@ def all_place(city_id):
         abort(404)
     for place in storage.all(Place).values():
         places.append(place.to_dict())
-    return jsonify(places)
+    return make_response(jsonify(places))
 
 @app_views.route("/places/<place_id>", 
                  strict_slashes=False)
@@ -26,7 +26,7 @@ def id_place(place_id):
     place = storage.get(Place, place_id)
     if not place:
         abort(404)
-    return place.to_dict()
+    return make_response(jsonify(place.to_dict()))
 
 @app_views.route('/places/<place_id>', methods=['DELETE'], 
                  strict_slashes=False)
@@ -37,7 +37,7 @@ def delete_place(place_id):
         abort(404)
     storage.delete(place)
     storage.save()
-    return {}
+    return make_response(jsonify({}), 200)
 
 @app_views.route("/cities/<city_id>/places", methods=['POST'], 
                  strict_slashes=False)
@@ -60,7 +60,7 @@ def new_place(city_id):
     nw_place = Place(**n_place)
     storage.new(nw_place)
     storage.save()
-    return nw_place.to_dict(), 201
+    return make_response(jsonify(nw_place.to_dict()), 201)
 
 @app_views.route('/places/<place_id>', methods=['PUT'],
                  strict_slashes=False)
@@ -77,4 +77,4 @@ def update_place(place_id):
                      'updated_at']:
             setattr(place, k, v)
     storage.save()
-    return place.to_dict()
+    return make_response(jsonify(place.to_dict()), 200)
