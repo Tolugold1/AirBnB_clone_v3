@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """Review view"""
 from flask import Flask, jsonify, abort, request
-from AirBnB_clone_v3.models import review
 from api.v1.views import app_views
 from models import storage
 from models.place import Place
