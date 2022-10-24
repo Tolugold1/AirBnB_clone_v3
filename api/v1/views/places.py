@@ -50,12 +50,12 @@ def new_place(city_id):
         abort(404)
     if not n_place:
         abort(400, {"Not a JSON"})
-    elif 'user_id' not in n_place:
+    if 'user_id' not in n_place:
         abort(400, {"Missing user_id"})
-    elif not storage.get('User', n_place['user_id']):
-        abort(404)
-    elif 'name' not in n_place:
+    if 'name' not in n_place:
         abort(400, {"Missing name"})
+    if not storage.get('User', n_place['user_id']):
+        abort(404)
     n_place['city_id'] = city_id
     nw_place = Place(**n_place)
     storage.new(nw_place)
