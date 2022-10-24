@@ -5,7 +5,6 @@ from api.v1.views import app_views
 from models import storage
 from models.place import Place
 from models.city import City
-from models.user import User
 
 @app_views.route("/cities/<city_id>/places", strict_slashes=False)
 def all_place(city_id):
@@ -40,7 +39,7 @@ def delete_place(place_id):
 def new_place(city_id, user_id):
     """Create a new place"""
     n_place = request.get_json()
-    user = storage.get(User, user_id)
+    user = storage.get(User, n_place['user_id'])
     city = storage.get(City, city_id)
     if not city:
         abort(404)
