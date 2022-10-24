@@ -53,7 +53,7 @@ def new_place(city_id):
     elif 'user_id' not in n_place:
         abort(400, {"Missing user_id"})
     elif not storage.get('User', n_place['user_id']):
-        abort(400)
+        abort(404)
     elif 'name' not in n_place:
         abort(400, {"Missing name"})
     n_place['city_id'] = city_id
