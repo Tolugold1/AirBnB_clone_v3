@@ -5,6 +5,7 @@ from api.v1.views import app_views
 from models import storage
 from models.place import Place
 from models.city import City
+from models.user import User
 
 @app_views.route("/cities/<city_id>/places", strict_slashes=False)
 def all_place(city_id):
@@ -45,12 +46,13 @@ def new_place(city_id, user_id):
         abort(404)
     if not n_place:
         abort(400, {"Not a JSON"})
-    if 'user_id' not in n_place:
+    elif 'user_id' not in n_place:
         abort(400, {"Missing user_id"})
-    if not user:
+    elif not user:
         abort(400)
-    if 'name' not in n_place:
+    elif 'name' not in n_place:
         abort(400, {"Missing name"})
+    n_place['city_id'] = city_id
     new_place = Place(**n_place)
     storage.new(new_place)
     storage.save()
