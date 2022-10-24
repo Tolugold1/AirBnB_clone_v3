@@ -37,7 +37,7 @@ def delete_place(place_id):
     return {}
 
 @app_views.route("/cities/<city_id>/places", methods=['POST'], strict_slashes=False)
-def new_place(city_id, user_id):
+def new_place(city_id):
     """Create a new place"""
     n_place = request.get_json()
     user = storage.get(User, n_place['user_id'])
