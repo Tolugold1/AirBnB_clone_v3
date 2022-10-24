@@ -26,7 +26,7 @@ def id_place(place_id):
     place = storage.get(Place, place_id)
     if not place:
         abort(404)
-    return jsonify(place.to_dict())
+    return place.to_dict()
 
 @app_views.route('/places/<place_id>', methods=['DELETE'], 
                  strict_slashes=False)
@@ -62,7 +62,8 @@ def new_place(city_id):
     storage.save()
     return nw_place.to_dict(), 201
 
-@app_views.route('/places/<place_id>', methods=['PUT'], strict_slashes=False)
+@app_views.route('/places/<place_id>', methods=['PUT'],
+                 strict_slashes=False)
 def update_place(place_id):
     """update a place"""
     place = storage.get(Place, place_id)
@@ -72,7 +73,8 @@ def update_place(place_id):
     if not u_place:
         abort(400, {"Not a JSON"})
     for k, v in u_place.items():
-        if k not in ['id', 'user_id', 'city_id', 'created_at', 'updated_at']:
+        if k not in ['id', 'user_id', 'city_id', 'created_at',
+                     'updated_at']:
             setattr(place, k, v)
     storage.save()
     return place.to_dict()
