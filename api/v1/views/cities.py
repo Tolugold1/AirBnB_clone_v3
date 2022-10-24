@@ -14,7 +14,7 @@ def city(state_id):
     if not storage.get(State, state_id):
         abort(404)
     for city in storage.all(City).values():
-        if state_id == city.to_dict()['state_id']:
+        if state_id == city.to_dict().get('state_id', None):
             allState_city.append(city.to_dict())
     return jsonify(allState_city)
 
