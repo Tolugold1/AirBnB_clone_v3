@@ -11,11 +11,10 @@ from models.user import User
 @app_views.route('/cities/<string:city_id>/places', methods=['GET'], strict_slashes=False)
 def places_city(city_id):
     """ Retrieves the list of all Amenity objects """
-    all_places = storage.all(Place)
-    target_place = [obj.to_dict() for obj in all_places.values() if obj.city_id == city_id]
-    if len(target_place) == 0:
+    city = storage.get(City, city_id)
+    if not city:
         abort(404)
-    return jsonify(target_place)
+    return jsonify(city.places)
 
 
 @app_views.route('/places/<string:place_id>', methods=['GET'], strict_slashes=False)
