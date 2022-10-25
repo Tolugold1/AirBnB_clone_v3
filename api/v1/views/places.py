@@ -55,6 +55,7 @@ def post_place(city_id):
         abort(400, "Missing name")
     place = Place(**newPlace)
     storage.new(place)
+    return jsonify(place.to_dict()), 200
 
 @app_views.route('/places/<string:place_id>', methods=['PUT'], strict_slashes=False)
 def put_place(place_id):
