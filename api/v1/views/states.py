@@ -17,7 +17,7 @@ def states():
 def r_state_id(state_id):
     """ Retrieves a State object """
     oneState = storage.get(State, state_id)
-    if not oneState:
+    if oneState == None:
         abort(404)
     return jsonify(oneState.to_dict())
 
@@ -26,7 +26,7 @@ def r_state_id(state_id):
 def del_state(state_id):
     """ Deletes a State object """
     oneState = storage.get(State, state_id)
-    if not oneState:
+    if oneState == None:
         abort(404)
     oneState.delete()
     storage.save()
@@ -51,7 +51,7 @@ def post_state():
 def put_state(state_id):
     """ Updates a State object """
     state = storage.get(State, state_id)
-    if not state:
+    if state == None:
         abort(404)
 
     body_request = request.get_json()
