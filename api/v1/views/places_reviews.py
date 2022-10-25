@@ -40,13 +40,13 @@ def create_review(place_id):
     if not place:
         abort(404)
     if not n_review:
-        abort(400, {"Not a JSON"})
+        abort(400, "Not a JSON")
     if 'user_id' not in n_review:
-        abort(400, {"Missing user_id"})
+        abort(400, "Missing user_id")
     if not storage.get('User', n_review['user_id']):
         abort(404)
     if 'text' not in n_review:
-        abort(400, {"Missing text"})
+        abort(400, "Missing text")
     new_review = Review(**n_review)
     setattr(new_review, 'place_id', place_id)
     storage.new(new_review)
