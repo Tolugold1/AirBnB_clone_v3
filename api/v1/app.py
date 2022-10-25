@@ -14,11 +14,13 @@ app.register_blueprint(app_views)
 def remove_session(response_or_exc):
     """Remove the surrent session"""
     storage.close()
-    
+
+
 @app.errorhandler(404)
 def not_found(self):
     """404 page"""
     return jsonify({"error": "Not found"})
+
 
 if __name__ == '__main__':
     HBNB_API_HOST = getenv('HBNB_API_HOST')
