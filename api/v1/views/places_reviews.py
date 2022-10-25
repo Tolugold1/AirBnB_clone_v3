@@ -8,14 +8,11 @@ from models.review import Review
 
 @app_views.route("/places/<place_id>/reviews", strict_slashes=False)
 def all_reviews(place_id):
-    """Retrieve"""
-    r = []
-    if not storage.get(Place, place_id):
+    """ Retrieves the list of all Review objects """
+    place = storage.get(Place, place_id)
+    if not place:
         abort(404)
-    for review in storage.all(Review).values():
-        if place_id == review.to_dict()['place_id']:
-            r.append(review.to_dict())
-    return jsonify(r.to_dict())
+    return jsonify([review.to_dict() for review in place.reviews])
 
 @app_views.route('/reviews/<review_id>', strict_slashes=False)
 def get_review(review_id):
@@ -23,8 +20,7 @@ def get_review(review_id):
     r = storage.get(Review, review_id)
     if not r:
         abort(404)
-    else:
-        return jsonify(r.to_dict())
+    return jsonify(r.to_dict())
 
 @app_views.route('/reviews/<review_id>', methods=['DELETE'], strict_slashes=False)
 def delete_review(review_id):
@@ -32,10 +28,9 @@ def delete_review(review_id):
     r = storage.get(Review, review_id)
     if not r:
         abort(404)
-    else:
-        storage.delete(r)
-        storage.save()
-        return {}
+    storage.delete(r)
+    storage.save()
+    return jsonify({}), 200
 
 @app_views.route("/places/<place_id>/reviews", methods=['POST'], strict_slashes=False)
 def create_review(place_id):
@@ -52,8 +47,8 @@ def create_review(place_id):
         abort(404)
     if 'text' not in n_review:
         abort(400, {"Missing text"})
-    n_review['place_id'] = place_id
     new_review = Review(**n_review)
+    setattr(new_review, 'place_id', place_id)
     storage.new(new_review)
     storage.save()
     return jsonify(new_review.to_dict()), 201
