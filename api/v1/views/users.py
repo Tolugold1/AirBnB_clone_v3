@@ -56,7 +56,7 @@ def update_user(user_id):
         abort(404)
     user_update = request.get_json()
     if not user_update:
-        abort(404, {"Not a JSON"})
+        abort(400, {"Not a JSON"})
     for k, v in user_update.items():
         setattr(user, k, v)
     storage.save()
