@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """Review view"""
-from flask import Flask, jsonify, abort, request
+from flask import Flask, jsonify, abort, request. make_response
 from api.v1.views import app_views
 from models import storage
 from models.place import Place
@@ -32,26 +32,27 @@ def delete_review(review_id):
     storage.save()
     return jsonify({}), 200
 
-@app_views.route("/places/<place_id>/reviews", methods=['POST'], strict_slashes=False)
-def create_review(place_id):
-    """create a new review"""
+@app_views.route('/places/<place_id>/reviews', methods=['POST'], strict_slashes=False)
+def post_review(place_id):
+    """ Creates a Review object """
     place = storage.get(Place, place_id)
-    n_review = request.get_json()
     if not place:
         abort(404)
-    if not n_review:
+    new_review = request.get_json()
+    if not new_review:
         abort(400, "Not a JSON")
-    if 'user_id' not in n_review:
+    if "user_id" not in new_review:
         abort(400, "Missing user_id")
-    if not storage.get(User, n_review['user_id']):
+    user_id = new_review['user_id']
+    if not storage.get(User, user_id):
         abort(404)
-    if 'text' not in n_review:
+    if "text" not in new_review:
         abort(400, "Missing text")
-    new_review = Review(**n_review)
-    setattr(new_review, 'place_id', place_id)
-    storage.new(new_review)
+    review = Review(**new_review)
+    setattr(review, 'place_id', place_id)
+    storage.new(review)
     storage.save()
-    return jsonify(new_review.to_dict()), 201
+    return make_response(jsonify(review.to_dict()), 201)
 
 @app_views.route('/reviews/<review_id>', methods=["PUT"], strict_slashes=False)
 def put_review(review_id):
