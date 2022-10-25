@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """Review view"""
-from flask import Flask, jsonify, abort, request. make_response
+from flask import Flask, jsonify, abort, request, make_response
 from api.v1.views import app_views
 from models import storage
 from models.place import Place
